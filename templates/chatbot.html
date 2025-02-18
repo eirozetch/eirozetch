@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translations.chatbot_title }}{% endblock %}
+
+{% block content %}
+<section id="chatbot" class="chatbot">
+  <div class="container">
+    <!-- Judul dan Subjudul -->
+    <h2>{{ translations.chatbot_title }}</h2>
+    <p>{{ translations.chatbot_subtitle }}</p>
+
+    <!-- Link ke ChatGPT -->
+    <div class="chat-container">
+      <p>Untuk berinteraksi dengan ChatGPT, silakan kunjungi:</p>
+      <a href="https://chat.openai.com/" target="_blank" class="btn">Buka ChatGPT</a>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-container">
+      <!-- Kotak Chat -->
+      <div id="chat-box" class="chat-box"></div>
+
+      <!-- Form Input Pesan -->
+      <form id="chat-form">
+        <input type="text" id="user-input" placeholder="{{ translations.chatbot_placeholder }}" required>
+        <button type="submit">{{ translations.send_button }}</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- JavaScript untuk Mengirim Permintaan ke Server -->
+<script>
+  document.getElementById('chat-form').addEventListener('submit', async (e) => {
+      e.preventDefault(); // Mencegah reload halaman
+
+      // Ambil input dari pengguna
+      const userInput = document.getElementById('user-input').value;
+      const chatBox = document.getElementById('chat-box');
+
+      // Tampilkan pesan pengguna di kotak chat
+      chatBox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+      document.getElementById('user-input').value = ''; // Kosongkan input setelah dikirim
+
+      // Kirim permintaan ke server menggunakan fetch
+      try {
+          const response = await fetch('/get_response', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: userInput })
+          });
+
+          // Parse respons dari server
+          const data = await response.json();
+
+          // Tampilkan respons AI di kotak chat
+          chatBox.innerHTML += `<p><strong>AI:</strong> ${data.response}</p>`;
+          chatBox.scrollTop = chatBox.scrollHeight; // Scroll ke bawah agar pesan terbaru terlihat
+      } catch (error) {
+          console.error('Error:', error);
+          chatBox.innerHTML += `<p><strong>Error:</strong> Failed to get a response from the server.</p>`;
+      }
+  });
+</script>
+{% endblock %}

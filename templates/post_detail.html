@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if post %}{{ post.title }}{% else %}Postingan Tidak Ditemukan{% endif %}
+{% endblock %}
+
+{% block content %}
+<section id="post-detail" class="post-detail">
+  <div class="container">
+    {% if post %}
+      <h2>{{ post.title }}</h2>
+      <img src="{{ url_for('static', filename='images/' + post.image) }}" alt="Gambar Postingan" class="post-image">
+      <p>{{ post.content }}</p>
+      <a href="/" class="back-link">{{ translations.back_to_home }}</a>
+    {% else %}
+      <h2>Postingan Tidak Ditemukan</h2>
+      <p>Maaf, postingan yang Anda cari tidak tersedia.</p>
+      <a href="/" class="back-link">{{ translations.back_to_home }}</a>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

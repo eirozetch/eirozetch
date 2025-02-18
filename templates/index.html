@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translations.home_title }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section id="home" class="hero">
+  <div class="container">
+    <h1>{{ translations.home_title }}</h1>
+    <p>{{ translations.home_subtitle }}</p>
+    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Foto Profil" class="profile-pic">
+  </div>
+</section>
+
+<!-- Posts Section -->
+<section id="posts" class="posts">
+  <div class="container">
+    <h2>{{ translations.posts_title }}</h2>
+    {% for post in posts %}
+    <div class="post">
+      <!-- Gambar Postingan -->
+      <img 
+        src="{% if post.image %}{{ url_for('static', filename='images/' + post.image) }}{% else %}https://via.placeholder.com/300x200{% endif %}" 
+        alt="Gambar Postingan"
+        onerror="this.src='https://via.placeholder.com/300x200'; this.alt='Gambar Tidak Tersedia';"
+      >
+      
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.content[:100] }}...</p>
+      <!-- Tautan Baca Selengkapnya -->
+      <a href="{{ url_for('post_detail', post_id=post.id) }}?lang={{ lang }}" class="read-more">{{ translations.read_more }}</a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

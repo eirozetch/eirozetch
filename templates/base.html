@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eirozetch - {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Eirozetch" class="logo-loading" onerror="this.src='https://via.placeholder.com/150'; this.alt='Logo Placeholder';">
+  </div>
+
+  <!-- Header with Navbar -->
+  <header>
+    <div class="container">
+      <!-- Logo -->
+      <h1 class="logo">Eirozetch</h1>
+
+      <!-- Hamburger Menu Icon -->
+      <div class="menu-icon" id="menu-icon">&#9776;</div>
+
+      <!-- Navigation Links -->
+      <nav>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/?lang={{ lang }}">Home</a></li>
+          <li><a href="/about?lang={{ lang }}">About</a></li>
+          <li><a href="/ebook?lang={{ lang }}">Ebook</a></li>
+          <li><a href="/chatbot?lang={{ lang }}">Chatbot</a></li>
+        </ul>
+      </nav>
+
+      <!-- Language Switcher -->
+      <div class="language-switcher">
+        <a href="?lang=id">ID</a> | <a href="?lang=en">EN</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Eirozetch. Instagram @agilsieroz.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll-to-Top Button -->
+  <button id="scroll-to-top" title="Go to top">&#8593;</button>
+
+  <!-- JavaScript -->
+  <script>
+    // Hide loading screen after page is fully loaded
+    window.addEventListener('load', () => {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+        }, 1000); // Delay for 1 second
+      }
+    });
+
+    // Hamburger Menu Toggle
+    const menuIcon = document.getElementById('menu-icon');
+    const navLinks = document.getElementById('nav-links');
+    if (menuIcon && navLinks) {
+      menuIcon.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+
+    // Scroll-to-Top Button
+    const scrollToTopBtn = document.getElementById('scroll-to-top');
+    if (scrollToTopBtn) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          scrollToTopBtn.style.display = 'block';
+        } else {
+          scrollToTopBtn.style.display = 'none';
+        }
+      });
+
+      scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+  </script>
+</body>
+</html>

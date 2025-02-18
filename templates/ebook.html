@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translations.ebook_title }}{% endblock %}
+
+{% block content %}
+<section id="ebook" class="ebook">
+  <div class="container">
+    <h2>{{ translations.ebook_title }}</h2>
+    <p>{{ translations.ebook_subtitle }}</p>
+    <div class="ebook-list">
+      {% for ebook in ebooks %}
+      <div class="ebook-item">
+        <h3>{{ ebook.title }}</h3>
+        <a href="{{ url_for('static', filename='ebooks/' + ebook.filename) }}" target="_blank" class="ebook-link">{{ translations.read_ebook }}</a>
+      </div>
+      {% endfor %}
+    </div>
+    <a href="/" class="back-link">{{ translations.back_to_home }}</a>
+  </div>
+</section>
+{% endblock %}
